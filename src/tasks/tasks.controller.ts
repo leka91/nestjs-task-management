@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { Task } from './task.model';
+import { Task } from './task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
@@ -17,12 +17,12 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get('all')
-  getAllTasks(): Task[] {
+  getAllTasks(): Promise<Task[]> {
     return this.tasksService.getAllTasks();
   }
 
   @Get('task/:id')
-  getTaskById(@Param('id') id: string): Task {
+  getTaskById(@Param('id') id: string): Promise<Task> {
     return this.tasksService.getTaskById(id);
   }
 
@@ -35,12 +35,12 @@ export class TasksController {
   updateTask(
     @Param('id') id: string,
     @Body() updateTaskDto: UpdateTaskDto,
-  ): Task {
+  ): Promise<Task> {
     return this.tasksService.updateTask(id, updateTaskDto);
   }
 
   @Post('create')
-  createTask(@Body() createTaskDto: CreateTaskDto): Task {
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
     return this.tasksService.createTask(createTaskDto);
   }
 }
