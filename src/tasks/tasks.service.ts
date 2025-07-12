@@ -52,6 +52,8 @@ export class TasksService {
 
     task.status = TaskStatus[status];
 
+    await this.taskRepository.save(task);
+
     return task;
   }
 }
